@@ -19,11 +19,13 @@ import sortingvisualization.sorts.BubbleSort;
 import sortingvisualization.sorts.SelectionSort;
 import sortingvisualization.sorts.QuickSort;
 import sortingvisualization.sorts.GnomeSort;
+import sortingvisualization.sorts.GnomeSort2;
+import sortingvisualization.sorts.Bubblebenar;
 
 public class GraphViewController implements Initializable {
 
     private final XYChart.Series<String, Integer> chartData = new XYChart.Series();
-    private static final int ENTRY_LIMIT = 500;
+    private static final int ENTRY_LIMIT = 20;
     private static final int INITIAL_WAIT_DELAY = 10_000;
 
     @FXML
@@ -61,12 +63,14 @@ public class GraphViewController implements Initializable {
     private void startSort() {
         lblDatasetSize.setText("Array size: " + ENTRY_LIMIT);
 
-      //  SortTask sortTask = new InsertionSort(chartData);
+      
       // SortTask sortTask = new BubbleSort(chartData);
       // SortTask sortTask = new SelectionSort(chartData);
-    // SortTask sortTask = new QuickSort(chartData);       
-        SortTask sortTask = new GnomeSort(chartData);
-          
+      // SortTask sortTask = new QuickSort(chartData);       
+       SortTask sortTask = new GnomeSort(chartData);
+      //   SortTask sortTask = new InsertionSort(chartData);   
+                
+
         Thread th = new Thread(sortTask);
         th.setDaemon(true);
         th.start();

@@ -6,9 +6,9 @@ import sortingvisualization.common.SwapItem;
 
 /**
  *
- * @author 
+ * @author Gian
  */
-public class GnomeSort extends SortTask {
+public class  GnomeSort extends SortTask {
 
     public GnomeSort(XYChart.Series<String, Integer> chartData) {
         super(chartData);
@@ -17,43 +17,56 @@ public class GnomeSort extends SortTask {
     @Override
     protected void doSorting() {
         int n = chartData.getData().size();
-        int temp;
-        int index = 0;
-        
-        while(index < n){
-            if(index == 0){
-                index++;
-            }
-            if (getValueAt(index) >= getValueAt(index - 1)){
-                index++;
-            }else
-            {
-                temp = 0;
-                SwapItem swapItem = new SwapItem(chartData.getData().get(index), index-1);
+        int i = 0;
+        try{
+            while(i<n){
+                
+                if (i == 0) i++;
+                
+                if (getValueAt(i) >= getValueAt(i-1)) i++;
+                
+                else {
+
+
+                    SwapItem swapItem = new SwapItem(chartData.getData().get(i-1), i);
                     updateValue(swapItem);
                     comparisonCount += 1;
                     updateComparisonMessage();
                     waitOnFlag();
                     
-                    index--;
-            }     
-        } 
-        return;
-    }
+                    i--;
+                }
+            }
 
+        }catch (Exception e){
+            System.out.println("Something went wrong.");
+        }finally{
+            System.out.println("The 'try catch' is finished!");
+        }
+               
+    }   
+
+    
     @Override
     public Runnable getSwapCode(SwapItem swapItem) {
-        return () -> {
+        return () -> {  
             try {
                 if (swapItem != null) {
-                    int index = swapItem.getOriginalIndex();
-                    setValueAt(index, getValueAt(index-1));
-                    setValueAt(index-1, swapItem.getItemToSwap().getYValue());
-                }
-                flag.set(true);
+                    
+                    int i = swapItem.getOriginalIndex();
+                    int temp = getValueAt(i);
+                    
+                    comparisonCount += 1;
+                    updateComparisonMessage();
+                    
+                    setValueAt(i, getValueAt(i-1));
+                    setValueAt(i-1, temp);
+                    
+                }                
             } catch (Exception exp) {
                 exp.printStackTrace();
-            }
-        };
-    }
+            }     
+    };
+}
+    
 }
